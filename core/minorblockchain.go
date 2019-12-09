@@ -920,50 +920,6 @@ func (m *MinorBlockChain) WriteBlockWithState(block *types.MinorBlock, receipts 
 		if err := triedb.Commit(root, false); err != nil {
 			return NonStatTy, err
 		}
-	} else {
-		// Full but not archive node, do proper garbage collection
-		triedb.Reference(root, common.Hash{}) // metadata reference to keep trie alive
-		m.triegc.Push(root, -int64(block.NumberU64()))
-
-		if current := block.NumberU64(); current > triesInMemory {
-			// If we exceeded our memory allowance, flush matured singleton nodes to disk
-			var (
-				nodes, imgs = triedb.Size()
-				limit       = common.StorageSize(m.cacheConfig.TrieDirtyLimit) * 1024 * 1024
-			)
-			if nodes > limit || imgs > 4*1024*1024 {
-				triedb.Cap(limit - ethdb.IdealBatchSize)
-			}
-			// Find the next state trie we need to commit
-			block := m.GetBlockByNumber(current - triesInMemory)
-			if qkcCommon.IsNil(block) {
-				log.Error("minorBlock not found", "height", current-triesInMemory)
-			}
-			mBlock := block.(*types.MinorBlock)
-			chosen := mBlock.NumberU64()
-
-			// If we exceeded out time allowance, flush an entire trie to disk
-			if m.gcproc > m.cacheConfig.TrieTimeLimit {
-				// If we're exceeding limits but haven't reached a large enough memory gap,
-				// warn the user that the system is becoming unstable.
-				if chosen < lastWrite+triesInMemory && m.gcproc >= 2*m.cacheConfig.TrieTimeLimit {
-					log.Info("State in memory for too long, committing", "time", m.gcproc, "allowance", m.cacheConfig.TrieTimeLimit, "optimum", float64(chosen-lastWrite)/triesInMemory)
-				}
-				// Flush an entire trie and restart the counters
-				triedb.Commit(mBlock.GetMetaData().Root, true)
-				lastWrite = chosen
-				m.gcproc = 0
-			}
-			// Garbage collect anything below our required write retention
-			for !m.triegc.Empty() {
-				root, number := m.triegc.Pop()
-				if uint64(-number) > chosen {
-					m.triegc.Push(root, number)
-					break
-				}
-				triedb.Dereference(root.(common.Hash))
-			}
-		}
 	}
 
 	// Write other block data using a batch.
