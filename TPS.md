@@ -5,9 +5,11 @@
 **Number of CPUs**
 
 [
+
 {64cpu  * 4}    
 {64cpu  * 4}    
-{64cpu  * 1}    
+{64cpu  * 1}   
+
 ]
 
 **Memory (GB)**
