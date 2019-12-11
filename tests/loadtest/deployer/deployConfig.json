@@ -1,39 +1,85 @@
-{
-  "DockerName": "quarkchaindocker/goquarkchain",
-  "Hosts": [
     {
-      "IP": "xxx.xxx.xxx.xxx",
-      "Port": 22,
-      "User": "root",
-      "Password": "xxxxxxx",
-      "IsMaster":true,
-      "SlaveNumber": 1,
-      "ClusterID": 0
-    },
-    {
-      "IP": "xxx.xxx.xxx.xxx",
-      "Port": 22,
-      "User": "root",
-      "Password": "xxxxxxx",
-      "IsMaster":true,
-      "SlaveNumber": 1,
-      "ClusterID": 1
-    },
-    {
-      "IP": "xxx.xxx.xxx.xxx",
-      "Port": 22,
-      "User": "root",
-      "Password": "xxxxxxx",
-      "IsMaster":true,
-      "SlaveNumber": 1,
-      "ClusterID": 2
-    }
-  ],
-  "CHAIN_SIZE": 4,
-  "SHARD_SIZE": 8,
-  "ExtraClusterConfig": {
-    "TargetRootBlockTime": 20,
-    "TargetMinorBlockTime": 4,
-    "GasLimit": 96000000
-  }
+	"DockerName": "quarkchaindocker/goquarkchain",
+	"Hosts": [
+	{
+	"IP": "172.30.0.3",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": true,
+	"SlaveNumber": 16,
+	"ClusterID": 0
+	},{
+	"IP": "172.30.0.2",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": false,
+	"SlaveNumber": 16,
+	"ClusterID": 0
+	},{
+	"IP": "172.30.0.5",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": false,
+	"SlaveNumber": 16,
+	"ClusterID": 0
+	},{
+	"IP": "172.30.0.10",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": false,
+	"SlaveNumber": 16,
+	"ClusterID": 0
+	},{
+	"IP": "172.30.0.14",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": true,
+	"SlaveNumber": 16,
+	"ClusterID": 1
+	},{
+	"IP": "172.30.0.12",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster":false,
+	"SlaveNumber": 16,
+	"ClusterID": 1
+	},{
+	"IP": "172.30.0.13",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": false,
+	"SlaveNumber": 16,
+	"ClusterID": 1
+	},{
+	"IP": "172.30.0.7",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": false,
+	"SlaveNumber": 16,
+	"ClusterID": 1
+	},{
+	"IP": "172.30.0.8",
+	"Port": 22,
+	"User": "root",
+	"Password": "ABCd1234",
+	"IsMaster": true,
+	"SlaveNumber": 16,
+	"ClusterID": 2
+	}
+	],
+	"CHAIN_SIZE": 128,
+	"SHARD_SIZE": 4,
+	"ExtraClusterConfig": {
+		"TargetRootBlockTime": 20,
+		"TargetMinorBlockTime": 4,
+		"GasLimit": 96000000
+	}
 }
